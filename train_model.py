@@ -4,7 +4,7 @@ from src.data_loader import load_as_sales_data
 from src.data_features import build_features
 from src.model import save_model, train_model
 
-config_path = "./best_config.yaml"
+config_path = "./config.yaml"
 with open(config_path) as f:
     config = yaml.safe_load(f)
 
@@ -16,4 +16,4 @@ X, Y = build_features(train_pl, config)
 
 model = train_model(X, Y, config=config)
 
-save_model(model)
+save_model(model, path="./models/forecast_model_latest.pkl")

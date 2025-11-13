@@ -1,1 +1,5 @@
 dataset_path: "./data/dataset.csv"
+target_column: "TOTAL_SOLD"
+date_column: "DATE"
+time_input_length: 10
+forecast_horizon: 7

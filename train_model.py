@@ -4,7 +4,7 @@ from src.data_loader import load_as_sales_data
 from src.data_features import build_features
 from src.model import save_model, train_model
 
-config_path = "./config.yaml"
+config_path = "./best_config.yaml"
 with open(config_path) as f:
     config = yaml.safe_load(f)
 

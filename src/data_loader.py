@@ -14,7 +14,7 @@ def load_data(path: str, **kwargs) -> pl.DataFrame:
 def load_as_sales_data(df: pl.DataFrame, date_col: str = "CREATEDATE", **kwargs) -> pl.DataFrame:
     """ Converts loaded dataframe to only relevant data for training"""
     df = load_data(df, **kwargs)
-    df = convert_date(df)
+    df = convert_date(df, date_col)
     df = aggregate_inventory(df)
     return df
 
@@ -32,8 +32,8 @@ def aggregate_inventory(df: pl.DataFrame, date_col: str = "DATE",
     mask = df[mask_col] == mask_type
     agg_inv = df.filter(mask).group_by(date_col).agg(pl.col(agg_col).sum())
 
-    col_name = f"TOTAL_{mask_type}"
-    agg_inv.rename({agg_col: col_name})
+    col_name = f"TOTAL_{mask_type.upper()}"
+    agg_inv = agg_inv.rename({agg_col: col_name})
 
     # Sort by date before returning
     return agg_inv.sort(date_col)

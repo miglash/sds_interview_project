@@ -8,7 +8,7 @@ config_path = "./config.yaml"
 with open(config_path) as f:
     config = yaml.safe_load(f)
 
-#TODO: validate config
+# TODO: validate config
 
 train_pl = load_as_sales_data(config["dataset_path"])
 

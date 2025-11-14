@@ -27,7 +27,7 @@ def load_as_sales_data(
 def convert_date(
     df: pl.DataFrame, date_col: str = "CREATEDATE"
 ) -> pl.DataFrame:
-    """ Convert date column to DATE only (remove time component) """
+    """Convert date column to DATE only (remove time component)"""
     new_date_col = "DATE"
     df = df.with_columns(
         pl.col(date_col)

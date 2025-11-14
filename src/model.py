@@ -57,7 +57,7 @@ class BaselineModel(BaseEstimator):
         self.n_targets = Y.shape[-1]
         self.n_inputs = X.shape[-1]
         if self.n_inputs < abs(self.last_ts_value):
-            err_msg = f"Less input features {self.n_inputs} than expected."
+            err_msg = f"Less input features than expected: {self.n_inputs}."
             err_msg += f"Time series of min length {abs(self.last_ts_value)} required.\n"
             err_msg += "Adjust last_ts_value or check dimensions of inputs X"
             logging.error(err_msg)
@@ -126,7 +126,7 @@ def train_model(X: np.ndarray, Y: np.ndarray, config: Dict):
 
     if model_type == "baseline":
         model = BaselineModel(**model_params)
-    if model_type == "xgboost":
+    elif model_type == "xgboost":
         model = xgb.XGBRegressor(**model_params)
     else:
         model = LinearRegression(**model_params)

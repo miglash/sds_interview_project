@@ -3,7 +3,7 @@ install:
 	pip install -r requirements.txt
 
 test:
-	python3 -m pytest -vv --cov=model tests/*.py
+	python3 -m pytest -vv --cov=src tests/*.py
 
 format:
 	black src/*.py --line-length 80

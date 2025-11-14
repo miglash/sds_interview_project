@@ -3,11 +3,11 @@
 Small Sales Forecasting Project for a Senior Data Scientist position application.
 
 ## Train & save model
-Run the code using:
+Run the code using the following steps:
 
-python train_model.py (default config)
-
-python train_model.py -c your_config_path.yaml
+1. run: make install
+2. update dataset_path in config.yaml to point to your dataset
+3. run: python train_model.py (default config) OR python train_model.py -c your_config_path.yaml
 
 Default model assumes a 7 day forecast horizon.
 

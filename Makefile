@@ -7,6 +7,7 @@ test:
 
 format:
 	black src/*.py --line-length 80
+	black train_model.py --line-length 80
 
 lint:
 	flake8 --max-line-length=80 --extend-ignore=E203,E501

@@ -4,24 +4,28 @@ import argparse
 
 from src.data_loader import load_as_sales_data
 from src.data_features import build_features
-from src.model import save_model, train_model
+from src.model_utils import save_model, train_model
 
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("Training.log"),
-            logging.StreamHandler()]
-    )
+    handlers=[logging.FileHandler("Training.log"), logging.StreamHandler()],
+)
 
 parser = argparse.ArgumentParser("Model Training")
-parser.add_argument("-c", "--config", help="Path of a config file to use instead of default", type=str)
+parser.add_argument(
+    "-c",
+    "--config",
+    help="Path of a config file to use instead of default",
+    type=str,
+)
 args = parser.parse_args()
 
 if args.config is None:
     config_path = "./config.yaml"
 else:
     config_path = args.config
-    
+
 logging.info(f"Config path set to: {config_path}")
 # TODO: validate config path
 

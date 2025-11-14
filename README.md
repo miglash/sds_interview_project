@@ -21,11 +21,12 @@ The waste to sales ratio is on average ~20%, so a forecast model needs to have a
 1. Sales data aggregated
 2. Holidays "detected as outliers" and imputed as median value of the same weekday
 3. No missing data --> no further imputation
-4. Added mean and standard deviation of training sample as further features
-5. Input time-length left as a free parameter: surprisingly short 10-14 days lead to best performance for model tested.
+4. Data is split into non-overlapping forecast windows.
+5. Added mean and standard deviation of training sample as further features
+6. Input time-length left as a free parameter: surprisingly short 10-14 days lead to best performance for model tested.
 
 ## Results
-Results from 3 models can be compared in [notebooks/results.ipynb](https://github.com/miglash/sds_interview_project/blob/main/notebooks/evaluation.ipynb)
+Time-based cross-validation results from 3 models can be compared in [notebooks/results.ipynb](https://github.com/miglash/sds_interview_project/blob/main/notebooks/evaluation.ipynb)
 
 1. Naive baseline - predict mean of inputs - 220% MAPE (Mean Absolute Percentage Error). This is a bit misleading since weekend/weekday sales vary dramatically.
 2. Linear baseline - 16% MAPE
@@ -39,6 +40,7 @@ Interestingly, performance degrades with time-folds for xgboost (12% MAPE in las
 3. Extend training for Random/Grid search over parameters
 4. Code clean-up: validating params, paths, config etc + Documentation
 5. Dataset (& any other defaults) generated from config
-6. Countless model improvements
-7. ...
+6. build_features() should handle both training and testing data preparation (currently only training)
+7. Countless model improvements: add frequency features, seasonal decomposition, split model into weekend vs weekday models, replace mean with rolling mean, etc.
+9. ...
 

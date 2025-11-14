@@ -11,6 +11,8 @@ from sklearn.model_selection import TimeSeriesSplit
 
 from src.model import BaselineModel
 
+logger = logging.getLogger(__name__)
+
 
 def train_model(X: np.ndarray, Y: np.ndarray, config: Dict):
     """
@@ -42,7 +44,7 @@ def train_model(X: np.ndarray, Y: np.ndarray, config: Dict):
     model_params = config.get("model_params", {})
 
     if model_type is None or model_type.lower() not in VALID_TYPES:
-        logging.warning(
+        logger.warning(
             f"{model_type} model type not implemented. Using default type 'xgboost'"
         )
         model_type = "xgboost"
@@ -55,7 +57,7 @@ def train_model(X: np.ndarray, Y: np.ndarray, config: Dict):
         model = LinearRegression(**model_params)
     else:
         err_msg = f"{model_type} model type couldn't be trained."
-        logging.error(err_msg)
+        logger.error(err_msg)
         raise ValueError(err_msg)
 
     model.fit(X, Y)
@@ -144,7 +146,7 @@ def save_model(model, path: str = "./models/forecast_model_latest.pkl") -> str:
 
     # Ensure reasonable suffix
     if p.suffix not in (".pkl", ".joblib"):
-        logging.warning(
+        logger.warning(
             f"Unrecognized file extension '{p.suffix}'. Using '.pkl' suffix."
         )
         p = p.with_suffix(".pkl")
@@ -154,7 +156,7 @@ def save_model(model, path: str = "./models/forecast_model_latest.pkl") -> str:
     try:
         joblib.dump(model, p)
     except Exception as exc:
-        logging.error(f"Failed to save model to '{p}': {exc}")
+        logger.error(f"Failed to save model to '{p}': {exc}")
         raise
 
     return str(p.resolve())
@@ -186,14 +188,14 @@ def load_model(path: str = "./models/forecast_model_latest.pkl") -> object:
         raise FileNotFoundError(f"Model file not found: '{p}'")
 
     if p.suffix not in (".pkl", ".joblib"):
-        logging.warning(
+        logger.warning(
             f"Unrecognized file extension '{p.suffix}'. Attempting to load anyway."
         )
 
     try:
         model = joblib.load(p)
     except Exception as exc:
-        logging.error(f"Failed to load model from '{p}': {exc}")
+        logger.error(f"Failed to load model from '{p}': {exc}")
         raise
 
     return model

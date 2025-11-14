@@ -1,6 +1,9 @@
+import logging
+
 import numpy as np
 from sklearn.base import BaseEstimator
-import logging
+
+logger = logging.getLogger(__name__)
 
 
 class BaselineModel(BaseEstimator):
@@ -54,7 +57,7 @@ class BaselineModel(BaseEstimator):
             err_msg = f"Less input features than expected: {self.n_inputs}."
             err_msg += f"Time series of min length {abs(self.last_ts_value)} required.\n"
             err_msg += "Adjust last_ts_value or check dimensions of inputs X"
-            logging.error(err_msg)
+            logger.error(err_msg)
             raise ValueError(err_msg)
         return self
 
@@ -63,7 +66,7 @@ class BaselineModel(BaseEstimator):
             err_msg = (
                 "Unknown number of targets to predict. Run .fit() method first."
             )
-            logging.error(err_msg)
+            logger.error(err_msg)
             raise Exception(err_msg)
 
         n_samples = X.shape[0]
@@ -84,7 +87,7 @@ class BaselineModel(BaseEstimator):
         if self.method in self.METHODS:
             return
         else:
-            logging.warning(
+            logger.warning(
                 f"Method {self.method} unavailable. Setting to default = 'last'"
             )
             self.method = "last"

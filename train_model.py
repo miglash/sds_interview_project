@@ -8,9 +8,10 @@ from src.model_utils import save_model, train_model
 
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     handlers=[logging.FileHandler("Training.log"), logging.StreamHandler()],
 )
+logger = logging.getLogger(__name__)
 
 parser = argparse.ArgumentParser("Model Training")
 parser.add_argument(
@@ -26,7 +27,7 @@ if args.config is None:
 else:
     config_path = args.config
 
-logging.info(f"Config path set to: {config_path}")
+logger.info(f"Config path set to: {config_path}")
 # TODO: validate config path
 
 with open(config_path) as f:
@@ -35,13 +36,13 @@ with open(config_path) as f:
 # TODO: validate config
 
 train_pl = load_as_sales_data(config["dataset_path"])
-logging.info("Data Loaded successfully")
+logger.info("Data Loaded successfully")
 
 X, Y = build_features(train_pl, config)
-logging.info("Training features built successfully")
+logger.info("Training features built successfully")
 
 model = train_model(X, Y, config=config)
-logging.info("Model training complete")
+logger.info("Model training complete")
 
 model_path = save_model(model, path="./models/forecast_model_latest.pkl")
-logging.info(f"Model saved: {model_path}")
+logger.info(f"Model saved: {model_path}")

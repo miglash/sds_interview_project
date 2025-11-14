@@ -1,6 +1,8 @@
 import polars as pl
 import logging
 
+logger = logging.getLogger(__name__)
+
 
 def load_data(path: str, **kwargs) -> pl.DataFrame:
     """Load data from a CSV file into a Polars DataFrame."""
@@ -8,14 +10,14 @@ def load_data(path: str, **kwargs) -> pl.DataFrame:
         df = pl.read_csv(path, **kwargs)
         return df
     except FileNotFoundError as e:
-        logging.error(f"Dataset file not found. Check path {path}: {e}")
+        logger.error(f"Dataset file not found. Check path {path}: {e}")
         raise
 
 
 def load_as_sales_data(
     df: pl.DataFrame, date_col: str = "CREATEDATE", **kwargs
 ) -> pl.DataFrame:
-    """Converts loaded dataframe to only relevant data for training"""
+    """Converts loaded dataframe to aggregated sales data for training"""
     df = load_data(df, **kwargs)
     df = convert_date(df, date_col)
     df = aggregate_inventory(df)
@@ -25,7 +27,7 @@ def load_as_sales_data(
 def convert_date(
     df: pl.DataFrame, date_col: str = "CREATEDATE"
 ) -> pl.DataFrame:
-    # Convert date column to DATE only (remove time component)
+    """ Convert date column to DATE only (remove time component) """
     new_date_col = "DATE"
     df = df.with_columns(
         pl.col(date_col)
@@ -84,7 +86,7 @@ def aggregate_all(
 
     dfs = pl.concat(dfs, how="align").sort(new_date_col)
 
-    logging.info(
+    logger.info(
         f"Aggregated data per date. Contains event types: {event_types}"
     )
     return dfs

@@ -1,14 +1,18 @@
-import polars as pl
-from datetime import date
 import logging
+
 from typing import Tuple, Dict
+
+import polars as pl
 import numpy as np
+from datetime import date
+
+logger = logging.getLogger(__name__)
 
 
 def build_features(
     df: pl.DataFrame, config: Dict
 ) -> Tuple[pl.DataFrame, pl.Series]:
-    """Build features for training model"""
+    """From dataframe build features for training a timeseries model"""
     # Unpack config
     target_col = config["target_column"]
     n_input = config["time_input_length"]
@@ -138,7 +142,7 @@ def handle_holidays(
             )
         return df
     else:
-        logging.warning(
+        logger.warning(
             f"Handle method {handle} not recognized. handle set to default='remove'."
         )
         return df.filter(mask)

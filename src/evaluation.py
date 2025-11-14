@@ -1,7 +1,12 @@
+import logging
+
+from typing import Dict, List
+import numpy as np
+
 from sklearn.metrics import root_mean_squared_error as rmse
 from sklearn.metrics import mean_absolute_percentage_error as mape
-import numpy as np
-from typing import Dict, List
+
+logger = logging.getLogger(__name__)
 
 
 def evaluate(Y_true: np.ndarray, Y_pred: np.ndarray) -> Dict:

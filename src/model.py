@@ -75,7 +75,12 @@ class BaselineModel(BaseEstimator):
             predictions = np.broadcast_to(value, (n_samples, self.n_targets))
             return predictions
         elif self.method == "mean":
-            value = X[:, : (self.last_ts_value + 1)].mean(
+            # Include the last timeseries value in the average
+            if self.last_ts_value == -1:
+                n_max = self.n_inputs
+            else:
+                n_max = self.last_ts_value + 1
+            value = X[:, :n_max].mean(
                 axis=-1, keepdims=True
             )
             predictions = np.broadcast_to(value, (n_samples, self.n_targets))

@@ -97,7 +97,7 @@ def cross_validate_model(
     return results
 
 
-def forecast(model, X: np.ndarray, config: dict) -> np.ndarray:
+def forecast(model, X: np.ndarray) -> np.ndarray:
     """Generate forecasts using a fitted model.
 
     Placeholder: if different prediction methods need to be handled.
@@ -108,8 +108,6 @@ def forecast(model, X: np.ndarray, config: dict) -> np.ndarray:
         Trained estimator exposing a predict(X) method.
     X : np.ndarray
         Input features for which to generate forecasts.
-    config : dict
-        Contains information on the model
 
     Returns
     -------

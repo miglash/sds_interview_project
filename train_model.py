@@ -1,5 +1,6 @@
 import yaml
 import logging
+import argparse
 
 from src.data_loader import load_as_sales_data
 from src.data_features import build_features
@@ -12,7 +13,18 @@ logging.basicConfig(
             logging.StreamHandler()]
     )
 
-config_path = "./config.yaml"
+parser = argparse.ArgumentParser("Model Training")
+parser.add_argument("-c", "--config", help="Path of a config file to use instead of default", type=str)
+args = parser.parse_args()
+
+if args.config is None:
+    config_path = "./config.yaml"
+else:
+    config_path = args.config
+    
+logging.info(f"Config path set to: {config_path}")
+# TODO: validate config path
+
 with open(config_path) as f:
     config = yaml.safe_load(f)
 
